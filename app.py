@@ -8,6 +8,12 @@ from textblob import TextBlob
 from scipy.sparse import hstack
 import warnings
 from sklearn.exceptions import InconsistentVersionWarning
+import nltk
+
+# -------------------------
+# Download NLTK resources
+# -------------------------
+nltk.download('stopwords')
 
 warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
 
@@ -79,6 +85,4 @@ def predict():
 # -------------------------
 # Main entry point
 # -------------------------
-if __name__ == '__main__':
-    # For local testing only (Render will use gunicorn)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+# Remove app.run for Render; it uses Gunicorn
