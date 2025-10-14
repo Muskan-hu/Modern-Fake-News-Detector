@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h1 class="app-title">✅ Prediction Result</h1>
+        </header>
+
+        <div class="card result-card real-result">
+            <h2 class="result-label">Verdict: Real News</h2>
+            <p class="result-message">Based on our analysis, this news appears to be **authentic**.</p>
+            
+            <div class="probability-container">
+                <div class="prob-item real-prob">
+                    <p class="prob-label">Real Probability</p>
+                    <p class="prob-value">{{ real_prob }}</p>
+                </div>
+                <div class="prob-item fake-prob">
+                    <p class="prob-label">Fake Probability</p>
+                    <p class="prob-value">{{ fake_prob }}</p>
+                </div>
+            </div>
+            
+            <a href="/" class="cta-button back-button">Analyze Another Article</a>
+        </div>
+    </div>
+</body>
+</html>

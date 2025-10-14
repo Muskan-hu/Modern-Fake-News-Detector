@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Veracity Checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <h1 class="app-title">📰 News Veracity Checker</h1>
+            <p class="tagline">Verify the authenticity of any news article instantly.</p>
+        </header>
+
+        <div class="card input-card">
+            <h2>Paste Your News Text Below</h2>
+            {% if error %}
+                <p class="alert error-message">⚠️ {{ error }}</p>
+            {% endif %}
+            
+            <form method="POST" action="/predict">
+                <textarea 
+                    name="news_text" 
+                    placeholder="E.g., 'The government today announced a revolutionary new policy...'" 
+                    required></textarea>
+                <button type="submit" class="cta-button">
+                    Analyze News
+                    <span class="icon">🔍</span>
+                </button>
+            </form>
+        </div>
+        
+        <footer>
+            <p>&copy; 2025 News Predictor Machine</p>
+        </footer>
+    </div>
+</body>
+</html>
