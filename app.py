@@ -13,14 +13,18 @@ warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
 
 app = Flask(__name__)
 
-# Load model
+# -------------------------
+# Load model and vectorizer
+# -------------------------
 bundle = joblib.load("fake_news_detector.pkl")
 vectorizer = bundle['vectorizer']
 svd = bundle['svd']
 ensemble = bundle['model']
 USE_SVD = svd is not None
 
+# -------------------------
 # Preprocessing setup
+# -------------------------
 STOP_WORDS = set(stopwords.words('english'))
 PS = PorterStemmer()
 RE_NON_LETTERS = re.compile(r'[^a-zA-Z\s]')
@@ -37,14 +41,17 @@ def preprocess_and_stem(text: str) -> str:
     stemmed = [PS.stem(w) for w in words if w not in STOP_WORDS]
     return " ".join(stemmed)
 
+# -------------------------
+# Routes
+# -------------------------
 @app.route('/')
 def home():
     return render_template('index.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    news_text = request.form['news_text']
-    if not news_text.strip():
+    news_text = request.form.get('news_text', '').strip()
+    if not news_text:
         return render_template('index.html', error="Please enter some text!")
 
     # Preprocess and features
@@ -69,5 +76,9 @@ def predict():
                                fake_prob=f"{pred_proba[0][0]*100:.2f}%",
                                real_prob=f"{pred_proba[0][1]*100:.2f}%")
 
+# -------------------------
+# Main entry point
+# -------------------------
 if __name__ == '__main__':
-    app.run(debug=True)
+    # For local testing only (Render will use gunicorn)
+    app.run(host='0.0.0.0', port=5000, debug=True)
